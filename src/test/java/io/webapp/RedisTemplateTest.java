@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.webapp.test;
+package io.webapp;
 
 import io.webapp.framework.constant.CommonRedisKey;
 import org.junit.Test;

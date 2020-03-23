@@ -1,4 +1,4 @@
-package io.webapp.test;
+package io.webapp;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

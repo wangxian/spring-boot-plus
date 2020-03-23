@@ -14,14 +14,8 @@
  * limitations under the License.
  */
 
-package io.webapp.test;
+package io.webapp;
 
-/**
- * spring-boot-plus代码生成器入口类
- *
- * @author geekidea
- * @date 2019-10-22
- **/
 public class SpringBootPlusGenerator {
 
     public static void main(String[] args) {
@@ -34,10 +28,11 @@ public class SpringBootPlusGenerator {
                 .setDriverName("com.mysql.jdbc.Driver")
                 .setDriverUrl("jdbc:mysql://localhost:3306/spring_boot_plus?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
 
+
         // 包信息
         codeGenerator
-                .setProjectPackagePath("com/example")
-                .setParentPackage("com.example");
+                .setProjectPackagePath("io/webapp")
+                .setParentPackage("io.webapp");
 
         // 组件作者等配置
         codeGenerator
@@ -52,7 +47,7 @@ public class SpringBootPlusGenerator {
                 .setParamValidation(true);
 
         // 生成实体映射相关代码,可用于数据库字段更新
-        // 当数据库字段更新时，可自定义自动生成哪些那文件
+        // 当数据库字段更新时，可自定义自动生成哪些文件
         codeGenerator
                 .setGeneratorEntity(true)
                 .setGeneratorPageParam(true)

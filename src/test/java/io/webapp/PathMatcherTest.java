@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-package io.webapp.test;
+package io.webapp;
 
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.AntPathMatcher;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class BaseTest {
+/**
+ * @author geekidea
+ * @date 2019-10-10
+ **/
+public class PathMatcherTest {
+
+    public static void main(String[] args) {
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+        String pattern = "/hello/**";
+        String path = "/hello/world";
+        boolean flag = pathMatcher.match(pattern, path);
+        System.out.println(flag);
+
+    }
 
 }

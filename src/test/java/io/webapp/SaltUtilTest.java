@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package io.webapp.test;
+package io.webapp;
 
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import io.webapp.framework.shiro.util.SaltUtil;
 
 /**
  * @author geekidea
- * @date 2019/8/4
- */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class IpTest {
+ * @date 2019-10-05
+ **/
+public class SaltUtilTest {
+    public static void main(String[] args) {
+        String salt = SaltUtil.generateSalt();
+        System.out.println(salt);
+        System.out.println(salt.length());
+    }
 }

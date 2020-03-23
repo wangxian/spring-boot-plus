@@ -1,4 +1,4 @@
-package io.webapp.test;
+package io.webapp;
 
 import io.webapp.framework.util.PhoneUtil;
 import org.junit.Test;
