@@ -16,20 +16,20 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="io.geekidea.springbootplus.system.mapper.SysLogMapper">
+<mapper namespace="io.webapp.system.mapper.SysLogMapper">
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         log_id, type, content, create_id, create_time
     </sql>
 
-    <select id="getSysLogById" resultType="io.geekidea.springbootplus.system.vo.SysLogQueryVo">
+    <select id="getSysLogById" resultType="io.webapp.system.vo.SysLogQueryVo">
         select
         <include refid="Base_Column_List"/>
         from sys_log where log_id = #{id}
     </select>
 
-    <select id="getSysLogPageList" resultType="io.geekidea.springbootplus.system.vo.SysLogQueryVo">
+    <select id="getSysLogPageList" resultType="io.webapp.system.vo.SysLogQueryVo">
         select
         <include refid="Base_Column_List"/>
         from sys_log
