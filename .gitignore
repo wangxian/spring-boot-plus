@@ -29,8 +29,6 @@
 
 *.log
 logs
+!*.sql
 
 *.rdb
-
-
-
