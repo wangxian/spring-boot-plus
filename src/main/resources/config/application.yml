@@ -15,7 +15,7 @@ server:
 ################################ spring config start ###############################
 spring:
   application:
-    name: spring-boot-plus
+    name: myapp
   http:
     encoding:
       charset: UTF-8
@@ -39,7 +39,7 @@ logging:
   config: classpath:config/logback.xml
   #  方便Spring Boot Admin页面上实时查看日志
   file:
-    name: logs/spring-boot-plus.log
+    name: logs/app.log
 ################################ spring config end #################################
 
 
@@ -272,8 +272,8 @@ swagger:
   base:
     package: io.webapp;com.example
   contact:
-    email: geekidea@qq.com
-    name: geekidea
+    email: xxx@qq.com
+    name: wx
     url: ''
   description: ''
   title: ${pom.artifactId}

@@ -23,8 +23,9 @@
 
     <!-- 打包的类型，如果有N个，将会打N个类型的包 -->
     <formats>
-        <format>tar.gz</format>
-        <!-- <format>zip</format> -->
+        <!--<format>tar.gz</format>-->
+        <!--<format>zip</format>-->
+        <format>dir</format>
     </formats>
 
     <includeBaseDirectory>true</includeBaseDirectory>
