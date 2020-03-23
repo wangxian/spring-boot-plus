@@ -36,8 +36,8 @@ public class SpringBootPlusGenerator {
 
         // 包信息
         codeGenerator
-                .setProjectPackagePath("io/webapp")
-                .setParentPackage("io.webapp");
+                .setProjectPackagePath("com/example")
+                .setParentPackage("com.example");
 
         // 组件作者等配置
         codeGenerator
@@ -55,7 +55,7 @@ public class SpringBootPlusGenerator {
         // 当数据库字段更新时，可自定义自动生成哪些那文件
         codeGenerator
                 .setGeneratorEntity(true)
-                .setGeneratorQueryParam(true)
+                .setGeneratorPageParam(true)
                 .setGeneratorQueryVo(true);
 
         // 生成业务相关代码

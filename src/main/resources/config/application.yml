@@ -4,7 +4,7 @@
 server:
   port: 8888
   servlet:
-    context-path: /api
+    context-path: /
   tomcat:
     max-threads: 1000
     min-spare-threads: 30
@@ -157,6 +157,7 @@ spring-boot-plus:
       /getSysUserInfo=anon
       /upload/**=anon
       /test/**=anon
+      /notebook/**=anon
     # 权限配置
     permission:
         # 排除登陆登出相关

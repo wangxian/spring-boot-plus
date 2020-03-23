@@ -118,6 +118,7 @@ public class CodeGenerator {
      * 分页列表查询是否排序 true：有排序参数/false：无
      */
     private boolean pageListOrder = false;
+
     /**
      * 是否生成validation校验，true：生成/false：不生成
      */
@@ -127,38 +128,47 @@ public class CodeGenerator {
      * 是否生成实体类
      */
     private boolean generatorEntity;
+
     /**
      * 是否生成控制器
      */
     private boolean generatorController;
+
     /**
      * 是否生成service接口
      */
     private boolean generatorService;
+
     /**
      * 是否生成service实现类
      */
     private boolean generatorServiceImpl;
+
     /**
      * 是否生成Mapper
      */
     private boolean generatorMapper;
+
     /**
      * 是否生成Mapper XML
      */
     private boolean generatorMapperXml;
+
     /**
      * 是否生成查询参数
      */
-    private boolean generatorQueryParam;
+    private boolean generatorPageParam;
+
     /**
      * 是否生成查询VO
      */
     private boolean generatorQueryVo;
+
     /**
      * 是否生成Shiro RequiresPermissions 注解
      */
     private boolean requiresPermissions;
+
     // ############################ 自定义配置部分 end ############################
 
     /**
@@ -170,22 +180,27 @@ public class CodeGenerator {
      * 实体父类
      */
     private String superEntity;
+
     /**
      * 控制器父类
      */
     private String superController;
+
     /**
      * service父接口
      */
     private String superService;
+
     /**
      * service实现父类
      */
     private String superServiceImpl;
+
     /**
      * 查询参数父类
      */
-    private String superQueryParam;
+    private String superPageParam;
+
     /**
      * 实体父类实体列表
      */
@@ -207,7 +222,7 @@ public class CodeGenerator {
     /**
      * 公共排序查询参数
      */
-    private String commonOrderQueryParam;
+    private String commonOrderPageParam;
     /**
      * 公共分页对象
      */
@@ -228,14 +243,14 @@ public class CodeGenerator {
         this.superController          = this.commonParentPackage + ".controller.BaseController";
         this.superService             = this.commonParentPackage + ".service.BaseService";
         this.superServiceImpl         = this.commonParentPackage + ".service.impl.BaseServiceImpl";
-        this.superQueryParam          = this.commonParentPackage + ".param.QueryParam";
+        this.superPageParam          = this.commonParentPackage + ".param.PageParam";
         this.superEntityCommonColumns = new String[]{};
 
         // 公共类包路径
         this.commonIdParam         = this.commonParentPackage + ".param.IdParam";
         this.commonApiResult       = this.commonParentPackage + ".api.ApiResult";
         this.commonOrderEnum       = this.commonParentPackage + ".enums.OrderEnum";
-        this.commonOrderQueryParam = this.commonParentPackage + ".param.OrderQueryParam";
+        this.commonOrderPageParam = this.commonParentPackage + ".param.OrderPageParam";
         this.commonPaging          = this.commonParentPackage + ".vo.Paging";
     }
 
@@ -297,12 +312,12 @@ public class CodeGenerator {
                 Map<String, Object> map = new HashMap<>();
                 map.put("customField", "Hello " + this.getConfig().getGlobalConfig().getAuthor());
                 // 查询参数包路径
-                String queryParamPackage = parentPackage + StringPool.DOT + pc.getModuleName() + ".param";
-                map.put("queryParamPackage", queryParamPackage);
+                String pageParamPackage = parentPackage + StringPool.DOT + pc.getModuleName() + ".param";
+                map.put("pageParamPackage", pageParamPackage);
                 // 查询参数类路径
-                map.put("queryParamPath", queryParamPackage + StringPool.DOT + pascalTableName + "QueryParam");
+                map.put("pageParamPath", pageParamPackage + StringPool.DOT + pascalTableName + "PageParam");
                 // 查询参数共公包路径
-                map.put("queryParamCommonPath", superQueryParam);
+                map.put("pageParamCommonPath", superPageParam);
                 // 查询参数共公包路径
                 map.put("idParamPath", commonIdParam);
                 // 响应结果包路径
@@ -329,7 +344,7 @@ public class CodeGenerator {
                 // 分页列表查询是否排序
                 map.put("pageListOrder", pageListOrder);
                 // 导入排序查询参数类
-                map.put("orderQueryParamPath", commonOrderQueryParam);
+                map.put("orderPageParamPath", commonOrderPageParam);
                 // 代码生成策略
                 map.put("generatorStrategy", generatorStrategy);
                 // 代码Validation校验
@@ -355,12 +370,12 @@ public class CodeGenerator {
             });
         }
 
-        // 自定义queryParam模板
-        if (generatorQueryParam) {
-            focList.add(new FileOutConfig("/templates/queryParam.java.vm") {
+        // 自定义pageParam模板
+        if (generatorPageParam) {
+            focList.add(new FileOutConfig("/templates/pageParam.java.vm") {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
-                    return projectPath + "/src/main/java/" + projectPackagePath + "/" + pc.getModuleName() + "/param/" + tableInfo.getEntityName() + "QueryParam" + StringPool.DOT_JAVA;
+                    return projectPath + "/src/main/java/" + projectPackagePath + "/" + pc.getModuleName() + "/param/" + tableInfo.getEntityName() + "PageParam" + StringPool.DOT_JAVA;
                 }
             });
         }

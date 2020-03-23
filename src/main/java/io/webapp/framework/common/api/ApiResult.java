@@ -53,11 +53,6 @@ public class ApiResult<T> implements Serializable {
     private String message;
 
     /**
-     * 是否成功
-     */
-    private boolean success;
-
-    /**
      * 响应数据
      */
     private T data;
@@ -89,10 +84,6 @@ public class ApiResult<T> implements Serializable {
     }
 
     public static ApiResult result(ApiCode apiCode,String message,Object data){
-        boolean success = false;
-        if (apiCode.getCode() == ApiCode.SUCCESS.getCode()){
-            success = true;
-        }
         String apiMessage = apiCode.getMessage();
         if (StringUtils.isNotBlank(apiMessage)){
             message = apiMessage;
@@ -101,7 +92,6 @@ public class ApiResult<T> implements Serializable {
                 .code(apiCode.getCode())
                 .message(message)
                 .data(data)
-                .success(success)
                 .time(new Date())
                 .build();
     }
@@ -138,7 +128,6 @@ public class ApiResult<T> implements Serializable {
             throw new RuntimeException("失败结果状态码不能为" + ApiCode.SUCCESS.getCode());
         }
         return result(apiCode,data);
-
     }
 
     public static ApiResult fail(String key,Object value){
