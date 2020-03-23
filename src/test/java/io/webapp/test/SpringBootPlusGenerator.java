@@ -28,17 +28,11 @@ public class SpringBootPlusGenerator {
         CodeGenerator codeGenerator = new CodeGenerator();
         // 公共配置
         // 数据库配置
-//        codeGenerator
-//                .setUserName("root")
-//                .setPassword("root")
-//                .setDriverName("com.mysql.jdbc.Driver")
-//                .setDriverUrl("jdbc:mysql://localhost:3306/spring_boot_plus?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
-//
         codeGenerator
-                .setUserName("spring_boot_plus")
-                .setPassword("Oracle111")
-                .setDriverName("oracle.jdbc.driver.OracleDriver")
-                .setDriverUrl("jdbc:oracle:thin:@192.168.43.204:1521:orcl");
+                .setUserName("root")
+                .setPassword("111111")
+                .setDriverName("com.mysql.jdbc.Driver")
+                .setDriverUrl("jdbc:mysql://localhost:3306/spring_boot_plus?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
 
         // 包信息
         codeGenerator
@@ -47,8 +41,8 @@ public class SpringBootPlusGenerator {
 
         // 组件作者等配置
         codeGenerator
-                .setModuleName("temp")
-                .setAuthor("geekidea")
+                .setModuleName("notebook")
+                .setAuthor("wx")
                 .setPkIdColumnName("id");
 
         // 生成策略
@@ -58,10 +52,10 @@ public class SpringBootPlusGenerator {
                 .setParamValidation(true);
 
         // 生成实体映射相关代码,可用于数据库字段更新
-        // 当数据库字段更新时，可自定义自动生成哪些文件
+        // 当数据库字段更新时，可自定义自动生成哪些那文件
         codeGenerator
                 .setGeneratorEntity(true)
-                // .setGeneratorPageParam(true)
+                .setGeneratorQueryParam(true)
                 .setGeneratorQueryVo(true);
 
         // 生成业务相关代码
@@ -84,8 +78,10 @@ public class SpringBootPlusGenerator {
         // 需要生成的表数组
         // xxx,yyy,zzz为需要生成代码的表名称
         String[] tables = {
-                "FOO_BAR"
+                "t_notebook"
         };
+        // 表前缀，生成控制器，service会去掉
+        codeGenerator.setTablePrefix("t_");
 
         // 循环生成
         for (String table : tables) {
