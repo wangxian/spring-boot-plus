@@ -3,13 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.webapp</groupId>
-    <artifactId>spring-boot-plus</artifactId>
-    <version>1.5.SNAPSHOT</version>
-    <packaging>jar</packaging>
-
-    <name>spring-boot-plus</name>
-    <description>spring-boot-plus Project</description>
+    <name>myapp</name>
+    <description>my project use spring-boot</description>
     <url>https://github.com/wangxian/spring-boot-plus</url>
     <licenses>
         <license>
@@ -17,6 +12,11 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+
+    <groupId>io.webapp</groupId>
+    <artifactId>${project.name}</artifactId>
+    <version>1.5.SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <properties>
         <utf8>UTF-8</utf8>
@@ -324,7 +324,7 @@
 
 
     <build>
-        <finalName>spring-boot-plus</finalName>
+        <finalName>${project.name}</finalName>
 
         <resources>
             <!-- 资源文件配置 -->
