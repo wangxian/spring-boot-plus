@@ -28,11 +28,10 @@ public class SpringBootPlusGenerator {
                 .setDriverName("com.mysql.jdbc.Driver")
                 .setDriverUrl("jdbc:mysql://localhost:3306/spring_boot_plus?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
 
-
         // 包信息
         codeGenerator
-                .setProjectPackagePath("io/webapp")
-                .setParentPackage("io.webapp");
+                .setProjectPackagePath("com/example")
+                .setParentPackage("com.example");
 
         // 组件作者等配置
         codeGenerator

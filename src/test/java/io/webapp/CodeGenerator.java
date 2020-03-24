@@ -253,7 +253,7 @@ public class CodeGenerator {
      * 初始化变量
      */
     public void init() {
-        this.frameworkParentPackage = this.parentPackage + ".framework";
+        this.frameworkParentPackage = "io.webapp.framework";
         this.commonParentPackage    = this.frameworkParentPackage + ".common";
 
         // 父类包路径

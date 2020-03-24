@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 // @EnableAdminServer
 @EnableTransactionManagement
 @EnableConfigurationProperties
-@MapperScan({"io.webapp.**.mapper"})
+@MapperScan({"io.webapp.**.mapper", "com.example.**.mapper"})
 @ServletComponentScan
 @SpringBootApplication(scanBasePackages = {"io.webapp", "com.example"})
 public class WebappApplication {
