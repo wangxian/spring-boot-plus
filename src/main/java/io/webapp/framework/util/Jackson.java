@@ -48,9 +48,10 @@ public class Jackson {
     public static String toJsonString(Object object, boolean prettyFormat) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            //格式化输出
+            // 格式化输出
             objectMapper.configure(SerializationFeature.INDENT_OUTPUT, prettyFormat);
-            //键按自然顺序输出
+
+            // 键按自然顺序输出
             objectMapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {

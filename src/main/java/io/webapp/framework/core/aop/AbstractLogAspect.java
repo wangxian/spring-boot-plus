@@ -71,21 +71,25 @@ public abstract class AbstractLogAspect {
      */
     protected static ThreadLocal<String> threadLocal = new ThreadLocal<>();
 
+
     /**
      * 默认的请求内容类型,表单提交
-     **/
+     */
     private static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
+
     /**
      * JSON请求内容类型
-     **/
+     */
     private static final String APPLICATION_JSON = "application/json";
+
     /**
      * GET请求
-     **/
+     */
     private static final String GET = "GET";
+
     /**
      * POST请求
-     **/
+     */
     private static final String POST = "POST";
 
     /**
@@ -122,7 +126,6 @@ public abstract class AbstractLogAspect {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
 
-
             Map<String, Object> map = new LinkedHashMap<>();
 
             // 获取请求类名和方法名称
@@ -135,17 +138,21 @@ public abstract class AbstractLogAspect {
             // 请求全路径
             String url = request.getRequestURI();
             map.put("path", url);
+
             // IP地址
             String ip = IpUtil.getRequestIp();
             map.put("ip", ip);
 
             // 获取请求方式
             String requestMethod = request.getMethod();
-            map.put("requestMethod", requestMethod);
+            map.put("method", requestMethod);
 
             // 获取请求内容类型
             String contentType = request.getContentType();
             map.put("contentType", contentType);
+
+            // 获取请求 headers
+            map.put("headers", getRequestHeaders(request));
 
             // 判断控制器方法参数中是否有RequestBody注解
             Annotation[][] annotations = method.getParameterAnnotations();
@@ -180,6 +187,31 @@ public abstract class AbstractLogAspect {
             log.error("处理响应结果异常", e);
         }
         return result;
+    }
+
+    /**
+     * 获取常用http头
+     *
+     * @param request 请求参数
+     * @return http headers
+     */
+    private Map<String, Object> getRequestHeaders(HttpServletRequest request) {
+        Map<String, Object> headers = new HashMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            // This headers are no use for output log
+            if ("accept-language".equals(headerName)
+                    || "user-agent".equals(headerName)
+                    || "accept".equals(headerName)
+                    || "connection".equals(headerName)
+                    || "accept-encoding".equals(headerName)) {
+                continue;
+            }
+
+            headers.put(headerName, request.getHeader(headerName));
+        }
+        return headers;
     }
 
     /**
@@ -221,7 +253,6 @@ public abstract class AbstractLogAspect {
         if (requiresGuest != null) {
             map.put("requiresGuest", true);
         }
-
     }
 
     /**
@@ -249,14 +280,17 @@ public abstract class AbstractLogAspect {
         if (result != null && result instanceof ApiResult) {
             ApiResult apiResult = (ApiResult) result;
             int code = apiResult.getCode();
+
             // 获取格式化后的响应结果
             String responseResultInfo = formatResponseInfo(apiResult);
+
             if (logAopConfig.getPrintType() == SpringBootPlusAopProperties.LogAopConfig.PRINT_TYPE_ORDER) {
                 printResponseInfo(code, responseResultInfo);
             } else {
                 // 从threadLocal中获取线程请求信息
                 String requestInfo = threadLocal.get();
                 threadLocal.remove();
+
                 // 如果是连续打印，则先打印请求参数，再打印响应结果
                 if (logAopConfig.getPrintType() == SpringBootPlusAopProperties.LogAopConfig.PRINT_TYPE_CONTINUITY) {
                     printRequestInfo(requestInfo);
@@ -301,7 +335,8 @@ public abstract class AbstractLogAspect {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return AnsiUtil.getAnsi(Ansi.Color.GREEN, "requestInfo:" + requestInfo);
+
+        return AnsiUtil.getAnsi(Ansi.Color.GREEN, "\n----------------------------------------------\n请求参数：" + requestInfo);
     }
 
     /**
@@ -320,22 +355,24 @@ public abstract class AbstractLogAspect {
      * @return
      */
     protected String formatResponseInfo(ApiResult apiResult) {
-        String responseResultInfo = "responseResult:";
+        String responseResultInfo = "响应结果：";
         try {
             if (logAopConfig.isResponseLogFormat()) {
-                responseResultInfo += "\n" + Jackson.toJsonString(apiResult, true);
+                responseResultInfo += "\n" + JSON.toJSONString(apiResult, true);
             } else {
                 responseResultInfo += Jackson.toJsonString(apiResult);
             }
+
             int code = apiResult.getCode();
             if (code == ApiCode.SUCCESS.getCode()) {
-                return AnsiUtil.getAnsi(Ansi.Color.BLUE, responseResultInfo);
+                return AnsiUtil.getAnsi(Ansi.Color.BLUE, responseResultInfo + "\n----------------------------------------------");
             } else {
-                return AnsiUtil.getAnsi(Ansi.Color.RED, responseResultInfo);
+                return AnsiUtil.getAnsi(Ansi.Color.RED, responseResultInfo + "\n----------------------------------------------");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return responseResultInfo;
     }
 
@@ -364,11 +401,11 @@ public abstract class AbstractLogAspect {
      */
     protected Object getRequestParamJsonString(ProceedingJoinPoint joinPoint, HttpServletRequest request, String requestMethod, String contentType, boolean isRequestBody) {
         Object paramObject = null;
-        if (isRequestBody){
+        if (isRequestBody) {
             // POST,application/json,RequestBody的类型,简单判断,然后序列化成JSON字符串
             Object[] args = joinPoint.getArgs();
             paramObject = argsArrayToJsonString(args);
-        }else{
+        } else {
             // 获取getParameterMap中所有的值,处理后序列化成JSON字符串
             Map<String, String[]> paramsMap = request.getParameterMap();
             paramObject = getJsonForParamMap(paramsMap);
@@ -404,6 +441,7 @@ public abstract class AbstractLogAspect {
         if (args == null) {
             return null;
         }
+
         // 去掉HttpServletRequest和HttpServletResponse
         List<Object> realArgs = new ArrayList<>();
         for (Object arg : args) {
@@ -457,6 +495,4 @@ public abstract class AbstractLogAspect {
         }
         return jsonObject;
     }
-
-
 }
