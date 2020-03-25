@@ -45,7 +45,7 @@
     </appender>
 
     <!-- 错误日志文件 -->
-    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
@@ -55,6 +55,7 @@
             <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
             <maxHistory>${MAX_HISTORY}</maxHistory>
         </rollingPolicy>
+
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
@@ -64,18 +65,27 @@
 
     <!-- 异步写日志 -->
     <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
         <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
         <queueSize>1024</queueSize>
-        <appender-ref ref ="FILE"/>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="FILE"/>
     </appender>
-    <appender name="ASYNC_ERROR_FILE" class="ch.qos.logback.classic.AsyncAppender">
+
+    <!-- 异步写日志 -->
+    <appender name="ASYNC_FILE_ERROR" class="ch.qos.logback.classic.AsyncAppender">
         <discardingThreshold>0</discardingThreshold>
         <queueSize>1024</queueSize>
-        <appender-ref ref ="ERROR_FILE"/>
+        <appender-ref ref="FILE_ERROR"/>
     </appender>
 
     <!-- 不同环境的日志级别配置 -->
     <springProfile name="local">
+        <!--<logger name="io.webapp" level="DEBUG">-->
+        <!--<appender-ref ref="ASYNC_FILE"/>-->
+        <!--<appender-ref ref="ASYNC_FILE_ERROR"/>-->
+        <!--</logger>-->
         <logger name="io.webapp" level="DEBUG"/>
     </springProfile>
 
@@ -83,9 +93,9 @@
     <logger name="org.apache.catalina.connector.CoyoteAdapter" level="OFF"/>
 
     <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="ASYNC_FILE" />
-        <appender-ref ref="ASYNC_ERROR_FILE" />
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC_FILE"/>
+        <appender-ref ref="ASYNC_FILE_ERROR"/>
     </root>
 
 </configuration>
