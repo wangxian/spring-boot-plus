@@ -41,7 +41,7 @@ public class RequestPathFilter implements Filter {
     private boolean isEnabled;
 
     public RequestPathFilter(SpringBootPlusFilterProperties.FilterConfig filterConfig) {
-        isEnabled = filterConfig.isEnabled();
+        isEnabled    = filterConfig.isEnabled();
         excludePaths = filterConfig.getExcludePaths();
         log.debug("isEnabled:" + isEnabled);
         log.debug("excludePaths:" + Arrays.toString(excludePaths));
@@ -58,10 +58,12 @@ public class RequestPathFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
+
         HttpServletRequest req = (HttpServletRequest) request;
         String path = req.getServletPath();
         String url = req.getRequestURL().toString();
         PathMatcher pathMatcher = new AntPathMatcher();
+
         boolean isOut = true;
         if (ArrayUtils.isNotEmpty(excludePaths)) {
             for (String pattern : excludePaths) {
@@ -71,9 +73,11 @@ public class RequestPathFilter implements Filter {
                 }
             }
         }
+
         if (isOut) {
             log.debug(url);
         }
+
         chain.doFilter(req, response);
     }
 
