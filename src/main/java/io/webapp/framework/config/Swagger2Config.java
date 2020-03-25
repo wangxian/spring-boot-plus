@@ -95,6 +95,12 @@ public class Swagger2Config {
     @Value("${swagger.version}")
     private String version;
 
+    /**
+     * 是否启用swagger2
+     */
+    @Value("${swagger.enabled}")
+    private boolean enabledSwagger;
+
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -103,6 +109,7 @@ public class Swagger2Config {
                 .apis(basePackage(basePackage))
                 .paths(PathSelectors.any())
                 .build()
+                .enable(enabledSwagger)
                 .globalOperationParameters(setHeaderToken())
                 ;
     }
