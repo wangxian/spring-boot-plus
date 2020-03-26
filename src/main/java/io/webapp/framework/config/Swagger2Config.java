@@ -21,6 +21,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import io.webapp.framework.shiro.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.RequestHandler;
@@ -45,6 +46,7 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2
+@ConditionalOnProperty(value = {"swagger.enable"}, matchIfMissing = true)
 public class Swagger2Config {
 
     /**
@@ -95,12 +97,6 @@ public class Swagger2Config {
     @Value("${swagger.version}")
     private String version;
 
-    /**
-     * 是否启用swagger2
-     */
-    @Value("${swagger.enabled}")
-    private boolean enabledSwagger;
-
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -109,7 +105,6 @@ public class Swagger2Config {
                 .apis(basePackage(basePackage))
                 .paths(PathSelectors.any())
                 .build()
-                .enable(enabledSwagger)
                 .globalOperationParameters(setHeaderToken())
                 ;
     }

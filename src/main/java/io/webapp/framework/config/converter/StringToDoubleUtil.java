@@ -16,18 +16,8 @@
 
 package io.webapp.framework.config.converter;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-/**
- * <code>
- * <pre>
- * 空字符串("")转换成Double的null
- *
- * </pre>
- * </code>
- * @author geekidea
- * @date 2018-11-08
- */
 public class StringToDoubleUtil {
 
 	public static Double convert(String source) {

@@ -20,10 +20,10 @@ import com.alibaba.fastjson.JSON;
 import io.webapp.framework.core.properties.SpringBootPlusInterceptorProperties;
 import io.webapp.framework.core.properties.SpringBootPlusProperties;
 import io.webapp.framework.interceptor.PermissionInterceptor;
+import io.webapp.framework.util.IniUtil;
 import io.webapp.resource.interceptor.DownloadInterceptor;
 import io.webapp.resource.interceptor.ResourceInterceptor;
 import io.webapp.resource.interceptor.UploadInterceptor;
-import io.webapp.framework.util.IniUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,7 @@ import java.util.Map;
 
 /**
  * WebMvc配置
+ *
  * @author geekidea
  * @date 2018-11-08
  */
@@ -97,7 +98,7 @@ public class SpringBootPlusWebMvcConfig implements WebMvcConfigurer {
 
 
     @PostConstruct
-    public void init(){
+    public void init() {
         // 打印SpringBootPlusProperties配置信息
         log.debug("SpringBootPlusProperties：{}", JSON.toJSONString(springBootPlusProperties));
     }
@@ -107,24 +108,24 @@ public class SpringBootPlusWebMvcConfig implements WebMvcConfigurer {
         SpringBootPlusInterceptorProperties interceptorConfig = springBootPlusProperties.getInterceptor();
 
         // 上传拦截器
-        if (interceptorConfig.getUpload().isEnabled()){
+        if (interceptorConfig.getUpload().isEnable()) {
             registry.addInterceptor(uploadInterceptor())
                     .addPathPatterns(interceptorConfig.getUpload().getIncludePaths());
         }
 
         // 资源拦截器注册
-        if (interceptorConfig.getResource().isEnabled()){
+        if (interceptorConfig.getResource().isEnable()) {
             registry.addInterceptor(resourceInterceptor())
                     .addPathPatterns(interceptorConfig.getResource().getIncludePaths());
         }
 
         // 下载拦截器注册
-        if (interceptorConfig.getDownload().isEnabled()){
+        if (interceptorConfig.getDownload().isEnable()) {
             registry.addInterceptor(downloadInterceptor())
                     .addPathPatterns(interceptorConfig.getDownload().getIncludePaths());
         }
 
-        if (interceptorConfig.getPermission().isEnabled()){
+        if (interceptorConfig.getPermission().isEnable()) {
             // 权限拦截器注册
             registry.addInterceptor(permissionInterceptor())
                     .addPathPatterns(interceptorConfig.getPermission().getIncludePaths())
@@ -136,9 +137,9 @@ public class SpringBootPlusWebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 设置项目静态资源访问
         String resourceHandlers = springBootPlusProperties.getResourceHandlers();
-        if (StringUtils.isNotBlank(resourceHandlers)){
-            Map<String,String> map = IniUtil.parseIni(resourceHandlers);
-            for (Map.Entry<String,String> entry : map.entrySet()){
+        if (StringUtils.isNotBlank(resourceHandlers)) {
+            Map<String, String> map = IniUtil.parseIni(resourceHandlers);
+            for (Map.Entry<String, String> entry : map.entrySet()) {
                 String pathPatterns = entry.getKey();
                 String resourceLocations = entry.getValue();
                 registry.addResourceHandler(pathPatterns)

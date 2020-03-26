@@ -116,7 +116,7 @@ public abstract class AbstractLogAspect {
     public Object handle(ProceedingJoinPoint joinPoint) throws Throwable {
 
         // 如果没有启用，则直接目标方法
-        if (!logAopConfig.isEnabled()) {
+        if (!logAopConfig.isEnable()) {
             return joinPoint.proceed();
         }
 

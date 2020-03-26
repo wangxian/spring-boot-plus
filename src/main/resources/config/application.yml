@@ -52,38 +52,28 @@ spring-boot-plus:
   # 实现BaseEnum接口的枚举包
   enum-packages: io.webapp.enums
   swagger-paths: /swagger-ui.html,/swagger-resources/**,/webjars/springfox-swagger-ui/**,/v2/api-docs,/csrf
-  # 过滤器配置
-  filter:
-    # 请求路径Filter配置
-    request-path:
-      enabled: true
-      include-paths: /**
-      # 排除路径，多行字符串配置
-      exclude-paths: |
-        /applications/**,/actuator/**,/instances/**,/logfile,/sba-settings.js,/assets/img/favicon.png,
-        ${spring-boot-plus.swagger-paths},
-        /favicon.ico
+
   # 拦截器配置
   interceptor:
     permission:
-      enabled: false
+      enable: false
       include-paths: /**
       exclude-paths: ${spring-boot-plus.swagger-paths},/adminLogin,/sysLogin,/login.html,/verificationCode,/doc/**,/error/**,/docs,/resource/**
     resource:
-      enabled: true
+      enable: false
       include-paths: ${spring-boot-plus.resource-access-patterns}
     upload:
-      enabled: true
+      enable: false
       include-paths: /upload/**
     download:
-      enabled: true
+      enable: false
       include-paths: /download/**
 
   # AOP配置
   aop:
     log:
       # 是否启用
-      enabled: true
+      enable: true
       # 1.请求和响应分开，按照执行顺序打印
       # 2.ThreadLocal线程绑定，方法执行结束时，连续打印请求和响应日志
       # 3.ThreadLocal线程绑定，方法执行结束时，同时打印请求和响应日志
@@ -270,7 +260,7 @@ spring:
 # swagger配置
 swagger:
   # 是否启用
-  enabled: true
+  enable: true
   base:
     package: io.webapp;com.example
   contact:

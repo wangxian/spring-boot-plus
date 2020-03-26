@@ -21,6 +21,7 @@ import io.webapp.framework.core.properties.SpringBootPlusProperties;
 import io.webapp.framework.util.HttpServletResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -30,11 +31,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 上传拦截器
+ *
  * @author geekidea
  * @date 2019/8/22
  * @since 1.2.2-RELEASE
  */
 @Slf4j
+@ConditionalOnProperty(value = {"spring-boot-plus.interceptor.upload.enable"}, matchIfMissing = true)
 public class UploadInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
@@ -51,8 +54,8 @@ public class UploadInterceptor extends HandlerInterceptorAdapter {
         String url = request.getRequestURI();
         // 访问全路径
         String fullUrl = request.getRequestURL().toString();
-        if (!springBootPlusProperties.getInterceptor().getUpload().isEnabled()){
-            log.error("上传功能已关闭，非法上传：{}",fullUrl);
+        if (!springBootPlusProperties.getInterceptor().getUpload().isEnable()) {
+            log.error("上传功能已关闭，非法上传：{}", fullUrl);
             HttpServletResponseUtil.printJson(response, ApiResult.fail("非法上传"));
             return false;
         }
@@ -62,9 +65,9 @@ public class UploadInterceptor extends HandlerInterceptorAdapter {
         // 访问token，如果需要，可以设置参数，进行鉴权
         String token = request.getParameter("token");
 
-        log.info("url:{}",url);
-        log.info("fullUrl:{}",fullUrl);
-        log.info("token:{}",token);
+        log.info("url:{}", url);
+        log.info("fullUrl:{}", fullUrl);
+        log.info("token:{}", token);
 
         return true;
     }

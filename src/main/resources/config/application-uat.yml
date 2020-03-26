@@ -5,7 +5,7 @@ spring-boot-plus:
   aop:
     log:
       # 是否启用
-      enabled: true
+      enable: true
       # 1.请求和响应分开，按照执行顺序打印
       # 2.ThreadLocal线程绑定，方法执行结束时，连续打印请求和响应日志
       # 3.ThreadLocal线程绑定，方法执行结束时，同时打印请求和响应日志
