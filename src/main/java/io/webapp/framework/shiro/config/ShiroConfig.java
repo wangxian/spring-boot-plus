@@ -2,6 +2,7 @@ package io.webapp.framework.shiro.config;
 
 import com.alibaba.fastjson.JSON;
 import io.webapp.framework.core.properties.SpringBootPlusFilterProperties;
+import io.webapp.framework.filter.RequestPathFilter;
 import io.webapp.framework.shiro.cache.LoginRedisService;
 import io.webapp.framework.shiro.exception.ShiroConfigException;
 import io.webapp.framework.shiro.jwt.JwtCredentialsMatcher;
@@ -48,7 +49,7 @@ import java.util.*;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({ShiroProperties.class})
-@ConditionalOnProperty(value = {"shiro.enable"}, matchIfMissing = true)
+@ConditionalOnProperty(value = {"spring-boot-plus.shiro.enable"}, matchIfMissing = true)
 public class ShiroConfig {
 
     /**
@@ -130,10 +131,13 @@ public class ShiroConfig {
                                                          JwtProperties jwtProperties) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        Map<String, Filter> filterMap = getFilterMap(loginService, loginRedisService, jwtProperties);
+        Map<String, Filter> filterMap = getFilterMap(loginService, loginRedisService, filterProperties, jwtProperties);
+
         shiroFilterFactoryBean.setFilters(filterMap);
+
         Map<String, String> filterChainMap = getFilterChainDefinitionMap(shiroProperties);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainMap);
+
         return shiroFilterFactoryBean;
     }
 
@@ -143,12 +147,15 @@ public class ShiroConfig {
      *
      * @return
      */
-    private Map<String, Filter> getFilterMap(LoginService loginService, LoginRedisService loginRedisService, JwtProperties jwtProperties) {
+    private Map<String, Filter> getFilterMap(LoginService loginService,
+                                             LoginRedisService loginRedisService,
+                                             SpringBootPlusFilterProperties filterProperties,
+                                             JwtProperties jwtProperties) {
         Map<String, Filter> filterMap = new LinkedHashMap();
+        filterMap.put(REQUEST_PATH_FILTER_NAME, new RequestPathFilter(filterProperties.getRequestPath()));
         filterMap.put(JWT_FILTER_NAME, new JwtFilter(loginService, loginRedisService, jwtProperties));
         return filterMap;
     }
-
 
     /**
      * Shiro路径权限配置

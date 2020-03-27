@@ -52,6 +52,17 @@ spring-boot-plus:
   # 实现BaseEnum接口的枚举包
   enum-packages: io.webapp.enums
   swagger-paths: /swagger-ui.html,/swagger-resources/**,/webjars/springfox-swagger-ui/**,/v2/api-docs,/csrf
+  # 过滤器配置
+  filter:
+    # 请求路径Filter配置
+    request-path:
+      enabled: true
+      include-paths: /**
+      # 排除路径，多行字符串配置
+      exclude-paths: |
+        /applications/**,/actuator/**,/instances/**,/logfile,/sba-settings.js,/assets/img/favicon.png,
+        ${spring-boot-plus.swagger-paths},
+        /favicon.ico
 
   # 拦截器配置
   interceptor:
@@ -130,14 +141,13 @@ spring-boot-plus:
   ######################## Spring Shiro start ########################
   shiro:
     # 是否启用
-    enable: true
+    enable: false
     # shiro ini 多行字符串配置
     filter-chain-definitions: |
       /=anon
       /static/**=anon
       /templates/**=anon
       /hello/world=anon
-      /sysLog/**=anon
       /verificationCode/**=anon
       /resource/**=anon
       /fooBar/**=anon
@@ -147,7 +157,6 @@ spring-boot-plus:
       /getSysUserInfo=anon
       /upload/**=anon
       /test/**=anon
-      /notebook/**=anon
     # 权限配置
     permission:
         # 排除登陆登出相关
@@ -204,7 +213,7 @@ mybatis-plus:
   global-config:
     db-config:
       # 全局默认主键类型
-      id-type: auto
+      id-type: input
       # 逻辑已删除值(默认为 1)
       logic-delete-value: 1
       # 逻辑未删除值(默认为 0)
@@ -219,8 +228,6 @@ mybatis-plus:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#    driver-class-name: oracle.jdbc.driver.OracleDriver
     type: com.zaxxer.hikari.HikariDataSource
     cachePrepStmts: true
     prepStmtCacheSize: 300
@@ -283,16 +290,16 @@ spring:
         url: http://localhost:${server.port}/${server.servlet.context-path}
 
 # 开启和暴露所有端点
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: ALWAYS
-    logfile:
-      enabled: true         #可在线查看日志
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#  endpoint:
+#    health:
+#      show-details: ALWAYS
+#    logfile:
+#      enabled: true         #可在线查看日志
 
 # 自定义项目信息，Spring Boot Admin展示使用
 info:

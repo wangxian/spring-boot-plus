@@ -62,7 +62,6 @@ public class LoginController {
         return ApiResult.okMap(JwtTokenUtil.getTokenName(), loginSysUserTokenVo.getToken());
     }
 
-
     /**
      * 根据token获取系统登陆用户信息
      */
