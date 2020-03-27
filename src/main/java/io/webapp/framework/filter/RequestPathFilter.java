@@ -16,12 +16,12 @@ public class RequestPathFilter implements Filter {
 
     private static String[] excludePaths;
 
-    private boolean isEnabled;
+    private boolean isEnable;
 
     public RequestPathFilter(SpringBootPlusFilterProperties.FilterConfig filterConfig) {
-        isEnabled    = filterConfig.isEnable();
+        isEnable    = filterConfig.isEnable();
         excludePaths = filterConfig.getExcludePaths();
-        log.debug("isEnabled:" + isEnabled);
+        log.debug("isEnabled:" + isEnable);
         log.debug("excludePaths:" + Arrays.toString(excludePaths));
     }
 
@@ -32,7 +32,7 @@ public class RequestPathFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (!isEnabled) {
+        if (!isEnable) {
             chain.doFilter(request, response);
             return;
         }
