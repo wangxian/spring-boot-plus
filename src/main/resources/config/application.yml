@@ -147,15 +147,12 @@ spring-boot-plus:
       /=anon
       /static/**=anon
       /templates/**=anon
-      /hello/world=anon
       /verificationCode/**=anon
       /resource/**=anon
-      /fooBar/**=anon
       /index=anon
       /enum=anon
       /docs=anon
       /getSysUserInfo=anon
-      /upload/**=anon
       /test/**=anon
     # 权限配置
     permission:
