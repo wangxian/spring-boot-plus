@@ -8,7 +8,7 @@ spring-boot-plus:
       include-path: ${spring-boot-plus.resource-access-patterns}
 
   # 文件上传下载配置
-  upload-path: /opt/upload/
+  upload-path: /tmp/
   # 资源访问路径
   resource-access-path: /resource/
   # 资源访问路径匹配：/resource/**
