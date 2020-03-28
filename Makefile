@@ -66,7 +66,7 @@ package:
 	@echo " "
 
 	@echo ">>>>>>>>> 正在部署到指定目录..."
-	@cp -rfv target/${APPLICATION}-server-assembly/myapp-server/* ${TARGET_DIR}/
+	@cp -rfv target/${APPLICATION}-server-assembly/${APPLICATION}-server/* ${TARGET_DIR}/
 	@chmod 755 ${TARGET_DIR}/bin/*.sh
 	@echo ">>> 部署到指定目录 ... OK"
 
