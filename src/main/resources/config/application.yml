@@ -152,7 +152,6 @@ spring-boot-plus:
       /index=anon
       /enum=anon
       /docs=anon
-      /getSysUserInfo=anon
       /test/**=anon
     # 权限配置
     permission:

@@ -16,13 +16,13 @@
 
 package io.webapp.system.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.webapp.framework.common.api.ApiResult;
 import io.webapp.framework.constant.CommonConstant;
 import io.webapp.framework.constant.CommonRedisKey;
 import io.webapp.framework.util.UUIDUtil;
 import io.webapp.framework.util.VerificationCode;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -62,9 +62,11 @@ public class VerificationCodeController {
     @ApiOperation(value = "获取验证码", notes = "获取验证码", response = ApiResult.class)
     public void getImage(HttpServletResponse response) throws Exception {
         VerificationCode verificationCode = new VerificationCode();
+
         BufferedImage image = verificationCode.getImage();
         String code = verificationCode.getText();
         String verifyToken = UUIDUtil.getUuid();
+
         // 缓存到Redis
         redisTemplate.opsForValue().set(String.format(CommonRedisKey.VERIFY_CODE, verifyToken), code, 5, TimeUnit.MINUTES);
         response.setHeader(CommonConstant.VERIFY_TOKEN, verifyToken);
@@ -72,7 +74,9 @@ public class VerificationCodeController {
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expire", 0);
+
         ServletOutputStream outputStream = response.getOutputStream();
+
         ImageIO.write(image, CommonConstant.JPEG, outputStream);
     }
 
@@ -84,20 +88,24 @@ public class VerificationCodeController {
     @ApiOperation(value = "获取图片Base64验证码", notes = "获取图片Base64验证码", response = ApiResult.class)
     public ApiResult getCode(HttpServletResponse response) throws Exception {
         VerificationCode verificationCode = new VerificationCode();
+
         BufferedImage image = verificationCode.getImage();
         String code = verificationCode.getText();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ImageIO.write(image, CommonConstant.JPEG, outputStream);
+
         // 将图片转换成base64字符串
         String base64 = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+
         // 生成当前验证码会话token
         String verifyToken = UUIDUtil.getUuid();
+
         Map<String, Object> map = new HashMap<>(2);
         map.put(CommonConstant.IMAGE, CommonConstant.BASE64_PREFIX + base64);
         map.put(CommonConstant.VERIFY_TOKEN, verifyToken);
+
         // 缓存到Redis
         redisTemplate.opsForValue().set(String.format(CommonRedisKey.VERIFY_CODE, verifyToken), code, 5, TimeUnit.MINUTES);
         return ApiResult.ok(map);
     }
-
 }
