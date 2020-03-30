@@ -28,6 +28,7 @@ rebuild: build restart
 	@echo "=> ::rebuild:: 任务执行完成"
 
 git_update:
+	@echo " "
 	git pull
 
 	@echo " "
@@ -35,6 +36,7 @@ git_update:
 	@echo "=> ::git_update:: 任务执行完成"
 
 clean:
+	@echo " "
 	mvn clean
 
 	@echo " "
