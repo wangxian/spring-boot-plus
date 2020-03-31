@@ -42,6 +42,7 @@ public class JacksonLocalDateTimeSerializer extends JsonSerializer<LocalDateTime
         if (localDateTime != null) {
             string = localDateTime.format(DateTimeFormatter.ofPattern(DatePattern.YYYY_MM_DD_HH_MM_SS));
         }
+
         jsonGenerator.writeString(string);
     }
 
