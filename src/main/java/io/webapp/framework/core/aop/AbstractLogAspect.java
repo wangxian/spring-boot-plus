@@ -293,6 +293,15 @@ public abstract class AbstractLogAspect {
                     printRequestResponseInfo(code, requestInfo, responseResultInfo);
                 }
             }
+        } else {
+            // fixed: 非JSON的输出，在日志打印type=3情况，也要输出请求信息
+            if (logAopConfig.getPrintType() == SpringBootPlusAopProperties.LogAopConfig.PRINT_TYPE_FINAL) {
+                // 从threadLocal中获取线程请求信息
+                String requestInfo = threadLocal.get();
+                threadLocal.remove();
+
+                printRequestInfo(requestInfo);
+            }
         }
     }
 
