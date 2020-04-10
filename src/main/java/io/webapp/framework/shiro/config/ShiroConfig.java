@@ -2,7 +2,6 @@ package io.webapp.framework.shiro.config;
 
 import com.alibaba.fastjson.JSON;
 import io.webapp.framework.core.properties.SpringBootPlusFilterProperties;
-import io.webapp.framework.filter.RequestPathFilter;
 import io.webapp.framework.shiro.cache.LoginRedisService;
 import io.webapp.framework.shiro.exception.ShiroConfigException;
 import io.webapp.framework.shiro.jwt.JwtCredentialsMatcher;
@@ -56,10 +55,7 @@ public class ShiroConfig {
      * JWT过滤器名称
      */
     private static final String JWT_FILTER_NAME = "jwtFilter";
-    /**
-     * 请求路径过滤器名称
-     */
-    private static final String REQUEST_PATH_FILTER_NAME = "path";
+
     /**
      * Shiro过滤器名称
      */
@@ -152,7 +148,6 @@ public class ShiroConfig {
                                              SpringBootPlusFilterProperties filterProperties,
                                              JwtProperties jwtProperties) {
         Map<String, Filter> filterMap = new LinkedHashMap();
-        filterMap.put(REQUEST_PATH_FILTER_NAME, new RequestPathFilter(filterProperties.getRequestPath()));
         filterMap.put(JWT_FILTER_NAME, new JwtFilter(loginService, loginRedisService, jwtProperties));
         return filterMap;
     }
@@ -229,16 +224,13 @@ public class ShiroConfig {
             String key = entry.getKey();
             String value = entry.getValue();
             String definition;
-            if (value.contains(REQUEST_PATH_FILTER_NAME)) {
-                definition = value;
-            } else {
-                String[] strings = value.split(",");
-                List<String> list = new ArrayList<>();
-                // 添加默认filter过滤
-                list.add(REQUEST_PATH_FILTER_NAME);
-                list.addAll(Arrays.asList(strings));
-                definition = String.join(",", list);
-            }
+
+            String[] strings = value.split(",");
+            List<String> list = new ArrayList<>();
+            // 添加默认filter过滤
+            list.addAll(Arrays.asList(strings));
+            definition = String.join(",", list);
+
             map.put(key, definition);
         }
         return map;
