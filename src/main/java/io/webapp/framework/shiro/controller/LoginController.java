@@ -16,6 +16,7 @@
 
 package io.webapp.framework.shiro.controller;
 
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.webapp.framework.common.api.ApiResult;
@@ -56,10 +57,21 @@ public class LoginController {
     @PostMapping("/login")
     @ApiOperation(value = "登陆", notes = "系统用户登陆", response = LoginSysUserTokenVo.class)
     public ApiResult login(@Validated @RequestBody LoginParam loginParam, HttpServletResponse response) throws Exception {
-        LoginSysUserTokenVo loginSysUserTokenVo = loginService.login(loginParam);
-        // 设置token响应头
-        response.setHeader(JwtTokenUtil.getTokenName(), loginSysUserTokenVo.getToken());
-        return ApiResult.okMap(JwtTokenUtil.getTokenName(), loginSysUserTokenVo.getToken());
+        // LoginSysUserTokenVo loginSysUserTokenVo = loginService.login(loginParam);
+        // // 设置token响应头
+        // response.setHeader(JwtTokenUtil.getTokenName(), loginSysUserTokenVo.getToken());
+        // return ApiResult.okMap(JwtTokenUtil.getTokenName(), loginSysUserTokenVo.getToken());
+
+        // for testing
+        String json = "{\n" +
+                "    'roles': ['admin'],\n" +
+                "    'introduction': 'I am a super administrator',\n" +
+                "    'avatar': 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',\n" +
+                "    'name': 'Super Admin'\n" +
+                "}";
+        JSON array = JSON.parseObject(json);
+
+        return ApiResult.ok(array);
     }
 
     /**
