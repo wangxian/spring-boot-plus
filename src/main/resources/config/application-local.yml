@@ -49,3 +49,16 @@ logging:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+# swagger配置
+swagger:
+  # 是否启用
+  enable: true
+  base:
+    package: com.example
+
+# knife4j 配置
+knife4j:
+  production: false
+

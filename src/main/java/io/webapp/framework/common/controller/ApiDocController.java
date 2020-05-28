@@ -21,14 +21,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import springfox.documentation.annotations.ApiIgnore;
 
-/**
- * <p>
- * Api文档
- * </p>
- *
- * @author geekidea
- * @date 2018-11-08
- */
 @Controller
 @RequestMapping("/docs")
 @ApiIgnore
@@ -39,7 +31,8 @@ public class ApiDocController extends BaseController {
      */
     @GetMapping("")
     public String swagger() {
-        return "redirect:/swagger-ui.html";
+        // return "redirect:/swagger-ui.html";
+        return "redirect:/doc.html";
     }
 
 }

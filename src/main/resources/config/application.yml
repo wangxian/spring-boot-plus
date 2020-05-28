@@ -51,7 +51,8 @@ spring-boot-plus:
   enable-verify-code: false
   # 实现BaseEnum接口的枚举包
   enum-packages: io.webapp.enums
-  swagger-paths: /swagger-ui.html,/swagger-resources/**,/webjars/springfox-swagger-ui/**,/v2/api-docs,/csrf
+  #swagger-paths: /swagger-ui.html,/swagger-resources/**,/webjars/springfox-swagger-ui/**,/v2/api-docs,/csrf
+  swagger-paths: /swagger-resources,/v2/api-docs,/v2/api-docs-ext,/doc.html,/webjars/**
   # 过滤器配置
   filter:
     # 请求路径Filter配置

@@ -16,6 +16,7 @@
 
 package io.webapp.framework.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -39,13 +40,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Swagger2全局配置
- * @author geekidea
- * @date 2018-11-08
- */
 @Configuration
 @EnableSwagger2
+@EnableKnife4j
 @ConditionalOnProperty(value = {"swagger.enable"}, matchIfMissing = true)
 public class Swagger2Config {
 
