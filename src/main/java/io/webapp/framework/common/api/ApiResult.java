@@ -1,19 +1,3 @@
-/*
- * Copyright 2019-2029 geekidea(https://github.com/geekidea)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package io.webapp.framework.common.api;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -29,14 +13,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * <p>
- * REST API 返回结果
- * </p>
- *
- * @author geekidea
- * @since 2018-11-08
- */
 @Data
 @Accessors(chain = true)
 @Builder
@@ -62,78 +38,78 @@ public class ApiResult<T> implements Serializable {
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date time  = new Date();
+    private Date time = new Date();
 
     public ApiResult() {
 
     }
 
-    public static ApiResult result(boolean flag){
-        if (flag){
+    public static ApiResult result(boolean flag) {
+        if (flag) {
             return ok();
         }
+
         return fail();
     }
 
-    public static ApiResult result(ApiCode apiCode){
-        return result(apiCode,null);
+    public static ApiResult result(ApiCode apiCode) {
+        return result(apiCode, null);
     }
 
-    public static ApiResult result(ApiCode apiCode,Object data){
-        return result(apiCode,null,data);
+    public static ApiResult result(ApiCode apiCode, Object data) {
+        return result(apiCode, null, data);
     }
 
-    public static ApiResult result(ApiCode apiCode,String message,Object data){
-        String apiMessage = apiCode.getMessage();
-        if (StringUtils.isNotBlank(apiMessage)){
-            message = apiMessage;
+    public static ApiResult result(ApiCode apiCode, String message, Object data) {
+        if (StringUtils.isBlank(message)) {
+            message = apiCode.getMessage();
         }
+
         return ApiResult.builder()
-                .code(apiCode.getCode())
-                .message(message)
-                .data(data)
-                .time(new Date())
-                .build();
+                        .code(apiCode.getCode())
+                        .message(message)
+                        .data(data)
+                        .time(new Date())
+                        .build();
     }
 
-    public static ApiResult ok(){
+    public static ApiResult ok() {
         return ok(null);
     }
 
-    public static ApiResult ok(Object data){
-        return result(ApiCode.SUCCESS,data);
+    public static ApiResult ok(Object data) {
+        return result(ApiCode.SUCCESS, data);
     }
 
-    public static ApiResult ok(Object data,String message){
-        return result(ApiCode.SUCCESS,message,data);
+    public static ApiResult ok(Object data, String message) {
+        return result(ApiCode.SUCCESS, message, data);
     }
 
-    public static ApiResult okMap(String key,Object value){
-        Map<String,Object> map = new HashMap<>(1);
-        map.put(key,value);
+    public static ApiResult okMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<>(1);
+        map.put(key, value);
         return ok(map);
     }
 
-    public static ApiResult fail(ApiCode apiCode){
-        return result(apiCode,null);
+    public static ApiResult fail(ApiCode apiCode) {
+        return result(apiCode, null);
     }
 
-    public static ApiResult fail(String message){
-        return result(ApiCode.FAIL,message,null);
-
+    public static ApiResult fail(String message) {
+        return result(ApiCode.FAIL, message, null);
     }
 
-    public static ApiResult fail(ApiCode apiCode,Object data){
-        if (ApiCode.SUCCESS == apiCode){
+    public static ApiResult fail(ApiCode apiCode, Object data) {
+        if (ApiCode.SUCCESS == apiCode) {
             throw new RuntimeException("失败结果状态码不能为" + ApiCode.SUCCESS.getCode());
         }
-        return result(apiCode,data);
+        return result(apiCode, data);
     }
 
-    public static ApiResult fail(String key,Object value){
-        Map<String,Object> map = new HashMap<>(1);
-        map.put(key,value);
-        return result(ApiCode.FAIL,map);
+    public static ApiResult fail(String key, Object value) {
+        Map<String, Object> map = new HashMap<>(1);
+        map.put(key, value);
+        return result(ApiCode.FAIL, map);
     }
 
     public static ApiResult fail() {
