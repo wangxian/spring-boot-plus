@@ -1,5 +1,6 @@
 package io.webapp.framework.config.json.fastjson;
 
+import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
@@ -66,5 +67,7 @@ public class FastJsonMvcConfig implements WebMvcConfigurer {
 
         converters.add(0, fastJsonHttpMessageConverter);
 
+        // 打开SafeMode功能
+        ParserConfig.getGlobalInstance().setSafeMode(true);
     }
 }
